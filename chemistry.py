@@ -4,9 +4,9 @@ ATOMIC_MASS_INDEX = 2
 
 def main():
     # Get a chemical formula for a molecule from the user.
-    chemical_formula = input(print("Enter the molecular formula of the sample: ")).upper()
+    chemical_formula = input("Enter the molecular formula of the sample: ")
     # Get the mass of a chemical sample in grams from the user.
-    grams = float(input(print("Enter the mass in grams of the sample: ")))
+    grams = float(input("Enter the mass in grams of the sample: "))
     
     # Call the make_periodic_table function and
     # store the periodic table in a variable.
@@ -16,19 +16,20 @@ def main():
     # chemical formula given by the user to a compound
     # list that stores element symbols and the quantity
     # of atoms of each element in the molecule.
-    parse_formula(formula=chemical_formula, periodic_table_dict=periodic_table)
-
+    symbol_quantity_list=parse_formula(chemical_formula, periodic_table)
+    # print(symbol_quantity_list)
     # Call the compute_molar_mass function to compute the
     # molar mass of the molecule from the compound list.
-    molar_mass = compute_molar_mass(symbol_quantity_list, periodic_table_dict=periodic_table)
+    
+    molar_mass = compute_molar_mass(symbol_quantity_list, periodic_table)
+    # Print the molar mass.
+    print(f"{molar_mass:.2f} grams/moles")
     
     # Compute the number of moles in the sample.
-    
-
-    # Print the molar mass.
-    print(molar_mass)
+    total_molar_mass = grams / molar_mass  
+    print(f"{total_molar_mass:.4f} moles")
     # Print the number of moles.
-    print(moles)
+    # print(moles)
     
 
     
@@ -242,7 +243,7 @@ SYMBOL_INDEX = 0
 QUANTITY_INDEX = 1
 
 
-def compute_molar_mass(symbol_quantity_list, periodic_table_dict, chemical_formula):
+def compute_molar_mass(symbol_quantity_list, periodic_table_dict):
     """Compute and return the total molar mass of all the
     elements listed in symbol_quantity_list.
 
@@ -262,17 +263,26 @@ def compute_molar_mass(symbol_quantity_list, periodic_table_dict, chemical_formu
     1.00794 * 2 + 15.9994 * 1
     18.01528
     """
+    total_molar_mass = 0.0
+    
     # Do the following for each each inner list in the
     # compound symbol_quantity_list:
         # Separate the inner list into symbol and quantity.
+    for inner_list in symbol_quantity_list:    
         # Get the atomic mass for the symbol from the dictionary.
+        symbol = inner_list[SYMBOL_INDEX]
+        quantity = inner_list[QUANTITY_INDEX]
+        
         # Multiply the atomic mass by the quantity.
+        atomic_mass = periodic_table_dict[symbol][ATOMIC_MASS_INDEX]
+        product = atomic_mass * quantity
         # Add the product into the total molar mass.
-    symbol_quantity_list = parse_formula()
-            
+        total_molar_mass += product
+        
+        # "symbol [key] 0": ["name 1", "atomic_mass 2"]
+    # number_of_moles = sample_mass / molar_mass    
     
-    # Return the total molar mass.
-    return molar_mass
+    return total_molar_mass
 
 if __name__ == "__main__":
     main()
