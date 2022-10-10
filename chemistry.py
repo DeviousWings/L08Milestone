@@ -1,51 +1,40 @@
+ATOMIC_SYMBOL_INDEX = 0
+ELEMENT_NAME_INDEX = 1
+ATOMIC_MASS_INDEX = 2
+
 def main():
     # Get a chemical formula for a molecule from the user.
-    formula = input(print("Input Chemical Formula: "))
+    chemical_formula = input(print("Enter the molecular formula of the sample: ")).upper()
     # Get the mass of a chemical sample in grams from the user.
-    grams = input(print("Mass of the chemical sample in grams: "))
+    grams = float(input(print("Enter the mass in grams of the sample: ")))
     
     # Call the make_periodic_table function and
     # store the periodic table in a variable.
-    periodic_table_list = make_periodic_table()
+    periodic_table = make_periodic_table()
     
     # Call the parse_formula function to convert the
     # chemical formula given by the user to a compound
     # list that stores element symbols and the quantity
     # of atoms of each element in the molecule.
-    parse_formula()
+    parse_formula(formula=chemical_formula, periodic_table_dict=periodic_table)
 
     # Call the compute_molar_mass function to compute the
     # molar mass of the molecule from the compound list.
-    compute_molar_mass()
+    molar_mass = compute_molar_mass(symbol_quantity_list, periodic_table_dict=periodic_table)
     
     # Compute the number of moles in the sample.
     
 
     # Print the molar mass.
-    print(compute_molar_mass())
+    print(molar_mass)
     # Print the number of moles.
-    print()
+    print(moles)
     
-    SYMBOL_INDEX = 0
-    NAME_INDEX = 1
-    ATOMIC_MASS_INDEX = 2
-    
-    
-    
-    table_name = ""
-    table_atomic_mass = 0.0
-    
-    for inner_list in periodic_table_list:
-        
-        name = inner_list[NAME_INDEX]
-        atomic_mass = inner_list[ATOMIC_MASS_INDEX]
-        
-        
-        print(f"Name: {name} Atomic Mass: {atomic_mass}")
+
     
 def make_periodic_table():
     
-    periodic_table_list = {
+    periodic_table_dict = {
         # ["symbol 0", "name 1", "atomic_mass 2"]
         "Ac":   ["Actinium", 227],
         "Ag":   ["Silver", 107.8682],
@@ -143,7 +132,7 @@ def make_periodic_table():
         "Zr":   ["Zirconium", 91.224]
     }
     
-    return periodic_table_list
+    return periodic_table_dict
 
 class FormulaError(ValueError):
     """FormulaError is the type of error that
@@ -253,7 +242,7 @@ SYMBOL_INDEX = 0
 QUANTITY_INDEX = 1
 
 
-def compute_molar_mass(symbol_quantity_list, periodic_table_dict):
+def compute_molar_mass(symbol_quantity_list, periodic_table_dict, chemical_formula):
     """Compute and return the total molar mass of all the
     elements listed in symbol_quantity_list.
 
@@ -279,9 +268,11 @@ def compute_molar_mass(symbol_quantity_list, periodic_table_dict):
         # Get the atomic mass for the symbol from the dictionary.
         # Multiply the atomic mass by the quantity.
         # Add the product into the total molar mass.
-
+    symbol_quantity_list = parse_formula()
+            
+    
     # Return the total molar mass.
-    return
+    return molar_mass
 
 if __name__ == "__main__":
     main()
